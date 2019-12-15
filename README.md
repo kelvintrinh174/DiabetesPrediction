@@ -1,7 +1,7 @@
 # Diabetes Prediction
 Python Flask APIs, Anaconda Environment
 
-# Summary: Data Analytic Application which can predict Diabetes based on various variables
+## Summary: Data Analytic Application which can predict Diabetes based on various variables
 
 ### Algorithms Model: Decision Tree and Logistic Regression
 
