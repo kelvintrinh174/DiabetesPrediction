@@ -17,6 +17,7 @@ Python Flask APIs, Anaconda Environment
 ![image](https://user-images.githubusercontent.com/39202933/70865719-99f2bc00-1f2e-11ea-97be-46a97f1bc46a.png)
 
 ### Main Screen
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/39202933/70865834-f9050080-1f2f-11ea-85ca-e4a774570080.gif)
 
 ### Data Vizualization
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/39202933/70865771-5056a100-1f2f-11ea-9724-3f9061bc7c23.gif)
