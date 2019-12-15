@@ -1,0 +1,185 @@
+<!doctype html>
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+  <style>
+    body {
+      background-color: #250E67;
+    }
+
+    .main {
+      background: #820263;
+    }
+
+    .content {
+      margin: 3%;
+    }
+
+    .form {
+      width: 100%;
+
+    }
+
+    .form .form-group {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<title>Diabetes Analyse</title>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col d-flex justify-content-center">
+        <div class="card content form">
+            <h5 class="p-3"> <label for="pediction">Find out if you might have diabetes</label></h5>
+          <form id="prediction" class="m-3" >
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="pregnancies">Pregnancies</label>
+                  <input type="number" class="form-control" id="pregnancies" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="glucose">Glucose level</label>
+                  <input type="number" class="form-control" id="glucose" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="bloodPressure">Blood Pressure</label>
+                  <input type="number" class="form-control" id="bloodPressure" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="skinThickness">Skin Thickness</label>
+                  <input type="number" class="form-control" id="skinThickness"required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="insulin">Insulin</label>
+                  <input type="number" class="form-control" id="insulin" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="bmi">BMI</label>
+                  <input type="number" class="form-control" id="bmi" step=".01" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="diabetesPedigreeFunction">Diabetes Ped Func</label>
+                  <input type="number" class="form-control" id="diabetesPedigreeFunction" step=".01" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="Age">Age</label>
+                  <input type="number" class="form-control" id="age" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col ">
+                <button type="submit" class="btn btn-primary ">Submit</button>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="result" class="">Result</label>
+                  <input type="text" class="form-control" id="result" readonly>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col d-flex justify-content-center">
+        <div class="card content">
+          <h5 class="card-title p-3">Confusion Matrix</h5>
+          <img id="confusion-matrix">
+          <div class="card-body text-wrap">
+            <p class="card-text">
+              The confusion matrix of our logistic regression predictor model.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col d-flex justify-content-center">
+        <div class="card content">
+          <h5 class="card-title p-3">Scattered Plot</h5>
+          <img id="scattered-plot">
+          <div class="card-body text-wrap">
+            <p class="card-text">
+              Scatter plot of insulin vs. age for Pima People of both healthy and diabetic individuals.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col d-flex justify-content-center">
+        <div class="card content">
+          <h5 class="card-title p-3">Histogram</h5>
+          <img id="histogram">
+          <div class="card-body text-wrap">
+            <p class="card-text">
+              Histogram of the diabetes outcome vs the age of the Pima individuals.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  const submitPrediction =  (event) => {
+    data =  [$('#pregnancies').val(), $('#glucose').val(),$('#bloodPressure').val(),$('#skinThickness').val(),$('#insulin').val(),$('#bmi').val(),$('#diabetesPedigreeFunction').val(),$('#age').val()]
+    console.log(JSON.stringify(data));
+    var result =  $.ajax({
+      url: "http://127.0.0.1:5001/api/predict",
+      method: "POST",
+      data: JSON.stringify(data),
+      contentType: "application/json",
+    })
+    .then((result)=>{
+      console.log(result);
+      $('#result').val(result.message);
+    });
+
+    event.preventDefault();
+  }
+
+  $(document).ready(async () => {
+
+
+    let confusionImg = await $.get("http://127.0.0.1:5001/api/getplotdata/confusion");
+    let scatteredPlot = await $.get("http://127.0.0.1:5001/api/getplotdata/scatter");
+    let histogram = await $.get("http://127.0.0.1:5001/api/getplotdata/histogram");
+
+    $('#confusion-matrix').attr('src', `data:image/${confusionImg.ext};base64,${confusionImg.img}`)
+    $('#scattered-plot').attr('src', `data:image/${scatteredPlot.ext};base64,${scatteredPlot.img}`)
+    $('#histogram').attr('src', `data:image/${histogram.ext};base64,${histogram.img}`)
+    $('#prediction').submit(submitPrediction);
+
+  });
+</script>
